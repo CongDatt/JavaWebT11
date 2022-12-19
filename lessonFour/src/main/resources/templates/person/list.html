@@ -12,12 +12,24 @@
 <body>
 
 <div class="container">
+    <div class="p-3">
+        <button type="button" class="btn btn-link">
+            <a href="/person/create">Create</a>
+        </button>
+        <button type="button" class="btn btn-link">
+            <a href="/person/search">Search</a>
+        </button>
+        <button type="button" class="btn btn-link">
+            <a href="/person/list">List</a>
+        </button>
+    </div>
     <table class="table">
         <thead>
         <tr>
             <th scope="col">No</th>
             <th scope="col">Name</th>
             <th scope="col">Age</th>
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -25,6 +37,14 @@
             <th scope="row" th:text="${person.id}"></th>
             <td th:text="${person.name}"></td>
             <td th:text="${person.age}"></td>
+            <td>
+                <button class="btn btn-danger">
+                    <a th:href="@{'/person/delete/' + ${person.id}}">Delete</a>
+                </button>
+                <button class="btn btn-warning">
+                    <a th:href="@{'/person/edit/' + ${person.id}}">Edit</a>
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>

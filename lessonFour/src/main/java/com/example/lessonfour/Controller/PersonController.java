@@ -6,10 +6,7 @@ import com.example.lessonfour.Service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,5 +41,36 @@ public class PersonController {
         List<Person> list = personService.getAllPerson();
         model.addAttribute("list", list);
         return "person/list";
+    }
+
+    @GetMapping("/search")
+    public String search() {
+        return "person/search";
+    }
+    @PostMapping("/search")
+    public String search(@RequestParam("max") int max, @RequestParam("min") int min, Model model) {
+        List<Person> list = personRepo.search(min, max  );
+        model.addAttribute("list", list);
+        return "person/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") int id, Model model) {
+        Person person = personRepo.findById(id).orElse(null);
+        model.addAttribute("person", person);
+        return "person/edit";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") int id) {
+        personRepo.deleteById(id);
+        return "redirect:/person/list";
+    }
+
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute Person person) {
+        personRepo.save(person);
+        return "redirect:/person/list";
     }
 }
